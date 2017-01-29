@@ -1,0 +1,27 @@
+@(form: Form[DateModel])(implicit messages: Messages)
+
+@main {
+
+    <p>Please provide a valid date: </p>
+    <ul>
+        <li>at least 2 calendar days from today</li>
+        <li>at most 60 calendar days from today</li>
+    </ul>
+
+    <div class="horizontal-layout">
+        @form.error("date").map { error =>
+            <p class="error">
+                @messages(error.message, error.args: _*)
+            </p>
+        }
+
+        @helper.form(action = routes.DateController.saveDate(), 'id -> "frm-save-date") {
+            @helper.inputText(form("date.day"), '_label -> "day", '_showConstraints -> false, 'required -> true)
+            @helper.inputText(form("date.month"), '_label -> "month", '_showConstraints -> false, 'required -> true)
+            @helper.inputText(form("date.year"), '_label -> "year", '_showConstraints -> false, 'required -> true)
+            <br/>
+            <button type="submit">Save</button>
+        }
+    </div>
+
+}

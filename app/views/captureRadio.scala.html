@@ -1,0 +1,17 @@
+@import models.forms.FormWithRadioButtonsModel
+@(form: Form[FormWithRadioButtonsModel])(implicit messages: Messages)
+
+@main {
+
+    @helper.form(action = routes.ConditionalValidationController.save(), 'id -> "frm-radio-buttons") {
+        @helper.inputRadioGroup(
+            form("yesNo"),
+            options = Seq("true" -> "Yes!", "false" -> "Nope"),
+            '_error -> form("yesNo").error.map(code => messages(code.key)),
+            '_label -> "You must make a difficult choice"
+        )
+
+        @helper.inputText(form("textField"), '_label -> "Reason", 'size -> 50, 'placeholder -> "Mandatory if you selected 'Yes' above")
+        <button type="submit">Save</button>
+    }
+}
