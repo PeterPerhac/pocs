@@ -5,5 +5,8 @@ POST        /form/date                          controllers.DateController.saveD
 GET         /form/conditional-validation        controllers.ConditionalValidationController.show
 POST        /form/conditional-validation        controllers.ConditionalValidationController.save
 
-GET         /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
 
+GET         /api/cars                           controllers.api.JsonValidationController.list
+POST        /api/cars                           controllers.api.JsonValidationController.validate
+
+GET         /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
