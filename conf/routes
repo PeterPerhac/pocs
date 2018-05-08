@@ -1,4 +1,8 @@
 GET         /                                   controllers.IndexController.show
+GET         /foo                                controllers.IndexController.foo
+
+GET         /people                             controllers.PeopleController.listPeople
+POST        /people/generate                    controllers.PeopleController.generateSomePeople
 
 GET         /form/date                          controllers.DateController.show
 POST        /form/date                          controllers.DateController.saveDate

@@ -1,30 +1,34 @@
 package repository
 
 import javax.inject.Inject
-
-import models.Reading
+import models.Person
+import play.api.libs.json.Json
 import play.modules.reactivemongo.ReactiveMongoApi
 import reactivemongo.api.{Cursor, ReadPreference}
-import reactivemongo.bson.BSONDocument
 import reactivemongo.play.json.collection.JSONCollection
 
-import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ExecutionContext, Future}
 
-class MongoRepository @Inject()(mongoApi: ReactiveMongoApi) extends Repository {
+class MongoRepository @Inject()(mongoApi: ReactiveMongoApi)(implicit ec: ExecutionContext) {
 
   import play.modules.reactivemongo.json._
 
-  import scala.concurrent.ExecutionContext.Implicits.global
+  private val eh = Cursor.DoneOnError[Vector[Person]]()
 
-  private implicit lazy val collection = mongoApi.database.map(_.collection[JSONCollection]("readings"))
+  private implicit lazy val peopleCollection: Future[JSONCollection] =
+    mongoApi.database.map(_.collection[JSONCollection]("people"))
 
-  private def execute[T](op: JSONCollection => Future[T])(implicit coll: Future[JSONCollection]) = coll flatMap op
-
-  def findAll(r: String): Future[Vector[Reading]] = {
-    execute {
-      _.find(BSONDocument("reg" -> r)).cursor[Reading](ReadPreference.Primary)
-        .collect[Vector](1000, Cursor.DoneOnError[Vector[Reading]]())
+  def generate(): Future[Int] =
+    peopleCollection.flatMap { coll =>
+      val people = (1 to 10).toList.map(_ => Person.gen.sample.get)
+      Future.traverse(people)(p => coll.insert(p)).map(_.size)
     }
-  }
+
+
+  def listAllPeople(): Future[Vector[Person]] =
+    peopleCollection.flatMap(
+      _.find(Json.obj()).cursor[Person](ReadPreference.Primary).collect[Vector](1000, eh)
+    )
 
 }
