@@ -1,2 +1,7 @@
 curl -v http://localhost:9000/people
+curl -vGET -H "Accept: application/json" http://localhost:9000/people
 curl -vXPOST http://localhost:9000/people/generate
+
+
+curl -vXPOST http://pea-o-seas.herokuapp.com/people/generate
+

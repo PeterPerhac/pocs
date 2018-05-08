@@ -1,6 +1,7 @@
 package controllers
 
 import javax.inject.Inject
+import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent}
 import repository.MongoRepository
 
@@ -13,8 +14,10 @@ class PeopleController @Inject()(mongoRepository: MongoRepository)(ds: CommonDep
 
   val listPeople: Action[AnyContent] =
     Action.async { implicit req =>
-      mongoRepository.listAllPeople().map { p => Ok(views.html.people(p))
-      }
+      mongoRepository.listAllPeople().map(p => render {
+        case Accepts.Json() => Ok(Json.toJson(p))
+        case _ => Ok(views.html.people(p))
+      })
     }
 
 }
