@@ -1,5 +1,8 @@
-curl -v http://localhost:9000/people
-curl -vGET -H "Accept: application/json" http://localhost:9000/people
+curl -v  http://localhost:9000/people
+curl -v -H "Accept: text/plain" http://localhost:9000/people
+curl -v -H "Accept: text/html" http://localhost:9000/people
+curl -v -H "Accept: application/json" http://localhost:9000/people
+
 curl -vXPOST http://localhost:9000/people/generate
 
 

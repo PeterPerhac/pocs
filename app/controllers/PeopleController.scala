@@ -16,7 +16,8 @@ class PeopleController @Inject()(mongoRepository: MongoRepository)(ds: CommonDep
     Action.async { implicit req =>
       mongoRepository.listAllPeople().map(p => render {
         case Accepts.Json() => Ok(Json.toJson(p))
-        case _ => Ok(views.html.people(p))
+        case Accepts.Html() => Ok(views.html.people(p))
+        case _ => Ok(p.toString)
       })
     }
 
