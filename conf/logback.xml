@@ -6,13 +6,13 @@
         </encoder>
     </appender>
 
-    <logger name="play" level="INFO" />
-    <logger name="application" level="WARN" />
+    <logger name="play" level="INFO"/>
+    <logger name="application" level="WARN"/>
 
-    <logger name="com.gargoylesoftware.htmlunit.javascript" level="OFF" />
+    <logger name="com.gargoylesoftware.htmlunit.javascript" level="OFF"/>
 
     <root level="WARN">
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="STDOUT"/>
     </root>
 
 </configuration>

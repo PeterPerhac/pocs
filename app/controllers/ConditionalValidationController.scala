@@ -13,7 +13,7 @@ class ConditionalValidationController @Inject()(ds: CommonDependencies) extends 
   def show = Action(Ok(views.html.captureRadio(form)))
 
   def save = Action { implicit request =>
-    form.bindFromRequest() fold(
+    form.bindFromRequest() fold (
       invalidForm => BadRequest(views.html.captureRadio(invalidForm)),
       validForm => Ok(views.html.main(Html(s"""<h1>Well done</h1><p>${validForm.toString}</p>""")))
     )

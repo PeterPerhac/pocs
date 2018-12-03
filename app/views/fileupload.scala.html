@@ -1,0 +1,23 @@
+@(uploadError: Option[String])(implicit messages: Messages)
+
+    @main {
+
+        <h1>Upload a file</h1>
+
+
+        @helper.form(action = routes.FileUploadController.accept(), 'id -> "frm-file-upload", 'enctype -> "multipart/form-data") {
+
+            @{
+                uploadError.map { err =>
+                    <ul class="error">
+                    <li>{messages(err)}</li>
+                    </ul>
+                }
+            }
+
+            <input type="file" name="file" />
+
+            <button type="submit">Save</button>
+        }
+
+    }

@@ -10,7 +10,6 @@ import play.api.mvc.{Action, Controller}
 
 import scala.concurrent.Future
 
-
 abstract class BaseController(val ds: CommonDependencies) extends Controller with I18nSupport with WSSupport {
 
   protected lazy val ws = ds.ws
@@ -20,14 +19,17 @@ abstract class BaseController(val ds: CommonDependencies) extends Controller wit
   def BasicSecured[A](action: Action[A]): Action[A] = Action.async(action.parser) { request =>
     val submittedCredentials: Option[List[String]] = for {
       authHeader <- request.headers.get("Authorization")
-      parts <- authHeader.split(' ').drop(1).headOption
+      parts      <- authHeader.split(' ').drop(1).headOption
     } yield new String(decodeBase64(parts.getBytes)).split(":").toList
 
-    submittedCredentials.collect {
-      case u :: p :: Nil if u == "admin" && p == "foofoo" =>
-    }.map(_ => action(request)).getOrElse {
-      Future.successful(Unauthorized.withHeaders("WWW-Authenticate" -> """Basic realm="Secured Area""""))
-    }
+    submittedCredentials
+      .collect {
+        case u :: p :: Nil if u == "admin" && p == "foofoo" =>
+      }
+      .map(_ => action(request))
+      .getOrElse {
+        Future.successful(Unauthorized.withHeaders("WWW-Authenticate" -> """Basic realm="Secured Area""""))
+      }
   }
 
 }

@@ -9,6 +9,6 @@ class IndexController @Inject()(mongoRepository: MongoRepository)(ds: CommonDepe
 
   def show = Action(Ok(views.html.homePage()))
 
-  val foo = Action(implicit req => Ok(views.html.fooPage(Seq(Person("Peter", 33), Person("Elizabeth", 7)))))
+  val foo = Action(implicit req => Ok(views.html.people(Seq(Person("Peter", 33), Person("Elizabeth", 7)))))
 
 }

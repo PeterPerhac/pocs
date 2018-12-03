@@ -14,11 +14,14 @@ class PeopleController @Inject()(mongoRepository: MongoRepository)(ds: CommonDep
 
   val listPeople: Action[AnyContent] =
     Action.async { implicit req =>
-      mongoRepository.listAllPeople().map(p => render {
-        case Accepts.Json() => Ok(Json.toJson(p))
-        case Accepts.Html() => Ok(views.html.people(p))
-        case _ => Ok(p.toString)
-      })
+      mongoRepository
+        .listAllPeople()
+        .map(p =>
+          render {
+            case Accepts.Json() => Ok(Json.toJson(p))
+            case Accepts.Html() => Ok(views.html.people(p))
+            case _              => Ok(p.toString)
+        })
     }
 
 }

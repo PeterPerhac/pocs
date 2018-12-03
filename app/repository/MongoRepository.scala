@@ -25,7 +25,6 @@ class MongoRepository @Inject()(mongoApi: ReactiveMongoApi)(implicit ec: Executi
       Future.traverse(people)(p => coll.insert(p)).map(_.size)
     }
 
-
   def listAllPeople(): Future[Vector[Person]] =
     peopleCollection.flatMap(
       _.find(Json.obj()).cursor[Person](ReadPreference.Primary).collect[Vector](1000, eh)

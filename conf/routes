@@ -9,6 +9,8 @@ POST        /form/date                          controllers.DateController.saveD
 GET         /form/conditional-validation        controllers.ConditionalValidationController.show
 POST        /form/conditional-validation        controllers.ConditionalValidationController.save
 
+GET         /fileupload                         controllers.FileUploadController.show
+POST        /fileupload/accept                  controllers.FileUploadController.accept
 
 GET         /api/cars                           controllers.api.JsonValidationController.list
 POST        /api/cars                           controllers.api.JsonValidationController.validate

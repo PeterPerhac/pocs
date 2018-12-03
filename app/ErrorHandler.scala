@@ -9,20 +9,18 @@ import scala.concurrent.Future
 
 @Singleton
 class ErrorHandler @Inject()(
-                              env: Environment,
-                              config: Configuration,
-                              sourceMapper: OptionalSourceMapper,
-                              router: Provider[Router]
-                            )
-  extends DefaultHttpErrorHandler(env, config, sourceMapper, router)
-    with ContentTypes
-    with Results {
-
+      env: Environment,
+      config: Configuration,
+      sourceMapper: OptionalSourceMapper,
+      router: Provider[Router]
+) extends DefaultHttpErrorHandler(env, config, sourceMapper, router) with ContentTypes with Results {
 
   override protected def onBadRequest(request: RequestHeader, message: String): Future[Result] =
-    request.contentType.collect {
-      case JSON => BadRequest(Json.toJson(Message("error", message)))
-    }.fold(super.onBadRequest(request, message))(Future.successful)
+    request.contentType
+      .collect {
+        case JSON => BadRequest(Json.toJson(Message("error", message)))
+      }
+      .fold(super.onBadRequest(request, message))(Future.successful)
 
 }
 

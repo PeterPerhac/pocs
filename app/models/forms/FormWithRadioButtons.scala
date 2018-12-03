@@ -5,12 +5,11 @@ import play.api.data.Forms._
 import uk.gov.voa.play.form.ConditionalMappings._
 import utils.ValidationUtils._
 
-
 object FormWithRadioButtons {
 
   def form: Form[FormWithRadioButtonsModel] = Form(
     mapping(
-      "yesNo" -> mandatoryBoolean,
+      "yesNo"     -> mandatoryBoolean,
       "textField" -> mandatoryIf(isTrue("yesNo"), text.verifying("custom.required.message", notBlank))
     )(FormWithRadioButtonsModel.apply)(FormWithRadioButtonsModel.unapply)
   )

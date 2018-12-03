@@ -9,7 +9,7 @@ trait WSSupport {
 
   private[controllers] def toClassOf[T: Reads](res: WSResponse): Option[T] = res.status match {
     case n if n < 300 => res.json.asOpt[T]
-    case _ => None
+    case _            => None
   }
 
 }

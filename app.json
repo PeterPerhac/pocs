@@ -1,5 +1,5 @@
 {
   "name": "Pea-o-Seas",
   "description": "Scala / Play 2.5 POCs, prototypes, scratches, ...",
-  "image": "heroku/scala",
+  "image": "heroku/scala"
 }

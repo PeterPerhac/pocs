@@ -5,7 +5,6 @@ import java.time.format.{DateTimeFormatter, ResolverStyle}
 
 import scala.util.Try
 
-
 case class DateComponents(day: Int, month: Int, year: Int)
 
 object DateComponents {
@@ -19,5 +18,6 @@ object DateComponents {
 }
 
 case class DateModel(date: DateComponents) {
-  override def toString = DateComponents.toLocalDate(date).toOption.map(_.format(DateComponents.formatter)).getOrElse("")
+  override def toString =
+    DateComponents.toLocalDate(date).toOption.map(_.format(DateComponents.formatter)).getOrElse("")
 }
